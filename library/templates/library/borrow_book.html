@@ -1,6 +1,4 @@
-
-
-
+{% load library_tags %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -26,14 +24,16 @@
         <p>Author: {{ book.author }}</p>
         <p>Category: {{ book.category }}</p>
 
-        {% if book.is_available %}
-            <form method="post" action="{% url 'library:borrow_book' book.id %}">
-                {% csrf_token %}
-                <button type="submit">Borrow</button>
-            </form>
-        {% else %}
-            <p>This book is already borrowed.</p>
-        {% endif %}
+      {% if request.user == book.customer_name %}
+        <p>You have already borrowed this book.</p>
+      {% elif book|reached_category_limit:request.user %}
+        <p>You have reached the maximum limit for borrowing books from this category.</p>
+      {% else %}
+        <form method="post" action="{% url 'library:borrow_book' book.id %}">
+          {% csrf_token %}
+          <button type="submit">Borrow</button>
+        </form>
+      {% endif %}
 
       </div>
       

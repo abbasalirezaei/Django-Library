@@ -14,22 +14,34 @@ class BookDetailView(DetailView):
     template_name = 'library/book_detail.html'  
     context_object_name = 'book' 
 
+
+
 def borrow_book(request, book_id):
     book = Library.objects.get(id=book_id)
 
+
+   
+ 
     if request.method == 'POST':
         # Check if the book is already borrowed
         # Perform the borrowing logic here
         # Update the book's availability and assign it to the currently logged-in user
+        if book.customer_name == request.user:
+            return redirect('library:book-detail', pk=book_id)
+            
+        if book.customer_reached_category_limit(request.user):
+            return redirect('library:book-detail',pk=book_id)
+
         if book.is_available ==True:
             book.is_available = False
             book.customer_name = request.user
             book.save()
-
-        return redirect('library:book_list')
+            return redirect('library:book-detail',pk=book_id)
         # return redirect('book_detail', book_id=book_id)
 
     return render(request, 'library/borrow_book.html', {'book': book})
+
+
 
 def borrowed_books(request):
     # Retrieve the books borrowed by the currently logged-in user
