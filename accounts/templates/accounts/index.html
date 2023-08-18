@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}
+      
+{% endblock title %}
+{% block content %}
+<div class="container container-fluid">
+  <div class="row my-5">
+
+    <div class="col-md-4">
+
+      <ul class="list-group">
+
+        
+          <a href="{% url 'accounts:borrowed_books' %}">
+            <li class="list-group-item active">Borrowed Book</li>
+          </a>
+        
+        <li class="list-group-item"><a href="{% url 'accounts:purchased_books' %}">Purchased Book</a></li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+
+
+    </div>
+
+    <div class="col-md-8">
+      <table class="table table-bordered table-dark">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">username</th>
+            <th scope="col">phone</th>
+            <th scope="col">address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{request.user.id}}</th>
+            <td>{{request.user.username}}</td>
+            <td>{{request.user.phone}}</td>
+            <td>{{request.user.address}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>        
+{% endblock content %}
